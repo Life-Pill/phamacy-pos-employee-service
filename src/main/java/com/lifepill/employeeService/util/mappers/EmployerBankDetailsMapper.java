@@ -1,7 +1,8 @@
 package com.lifepill.employeeService.util.mappers;
 
-import com.lifepill.possystem.dto.EmployerBankDetailsDTO;
-import com.lifepill.possystem.entity.EmployerBankDetails;
+
+import com.lifepill.employeeService.dto.EmployerBankDetailsDTO;
+import com.lifepill.employeeService.entity.EmployerBankDetails;
 
 public class EmployerBankDetailsMapper {
 

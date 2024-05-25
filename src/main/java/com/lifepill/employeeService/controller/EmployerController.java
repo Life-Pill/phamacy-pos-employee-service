@@ -1,14 +1,16 @@
 package com.lifepill.employeeService.controller;
 
-import com.lifepill.possystem.dto.EmployerBankDetailsDTO;
-import com.lifepill.possystem.dto.EmployerDTO;
-import com.lifepill.possystem.dto.EmployerWithBankDTO;
-import com.lifepill.possystem.dto.EmployerWithoutImageDTO;
-import com.lifepill.possystem.dto.requestDTO.EmployerUpdate.*;
-import com.lifepill.possystem.exception.NotFoundException;
-import com.lifepill.possystem.service.EmployerService;
-import com.lifepill.possystem.util.StandardResponse;
-import com.lifepill.possystem.util.mappers.EmployerMapper;
+import com.lifepill.employeeService.dto.EmployerBankDetailsDTO;
+import com.lifepill.employeeService.dto.EmployerDTO;
+import com.lifepill.employeeService.dto.EmployerWithBankDTO;
+import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
+import com.lifepill.employeeService.dto.request.EmployerAllDetailsUpdateDTO;
+import com.lifepill.employeeService.dto.request.EmployerUpdateAccountDetailsDTO;
+import com.lifepill.employeeService.dto.request.EmployerUpdateBankAccountDTO;
+import com.lifepill.employeeService.exception.NotFoundException;
+import com.lifepill.employeeService.service.EmployerService;
+import com.lifepill.employeeService.util.StandardResponse;
+import com.lifepill.employeeService.util.mappers.EmployerMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

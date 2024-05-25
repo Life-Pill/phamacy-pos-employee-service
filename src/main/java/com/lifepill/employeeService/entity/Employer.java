@@ -1,18 +1,15 @@
 package com.lifepill.employeeService.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lifepill.possystem.entity.enums.Gender;
-import com.lifepill.possystem.entity.enums.Role;
+import com.lifepill.employeeService.entity.enums.Gender;
+import com.lifepill.employeeService.entity.enums.Role;
+import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
 
 /**
  * The type Employer.

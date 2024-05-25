@@ -1,6 +1,6 @@
 package com.lifepill.employeeService.dto.request;
 
-import com.lifepill.possystem.entity.enums.Role;
+import com.lifepill.employeeService.entity.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

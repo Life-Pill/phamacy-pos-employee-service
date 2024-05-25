@@ -1,8 +1,8 @@
 package com.lifepill.employeeService.controller;
 
-import com.lifepill.possystem.dto.requestDTO.EmployerUpdate.EmployerPasswordResetDTO;
-import com.lifepill.possystem.dto.requestDTO.EmployerUpdate.EmployerRecentPinUpdateDTO;
-import com.lifepill.possystem.service.EmployerService;
+import com.lifepill.employeeService.dto.request.EmployerPasswordResetDTO;
+import com.lifepill.employeeService.dto.request.EmployerRecentPinUpdateDTO;
+import com.lifepill.employeeService.service.EmployerService;
 import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PutMapping;

@@ -1,12 +1,13 @@
 package com.lifepill.employeeService.service;
 
 
-import com.lifepill.possystem.dto.EmployerBankDetailsDTO;
-import com.lifepill.possystem.dto.EmployerDTO;
-import com.lifepill.possystem.dto.EmployerWithBankDTO;
-import com.lifepill.possystem.dto.EmployerWithoutImageDTO;
-import com.lifepill.possystem.dto.requestDTO.EmployerUpdate.*;
-import com.lifepill.possystem.entity.enums.Role;
+
+import com.lifepill.employeeService.dto.EmployerBankDetailsDTO;
+import com.lifepill.employeeService.dto.EmployerDTO;
+import com.lifepill.employeeService.dto.EmployerWithBankDTO;
+import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
+import com.lifepill.employeeService.dto.request.*;
+import com.lifepill.employeeService.entity.enums.Role;
 
 import java.util.List;
 

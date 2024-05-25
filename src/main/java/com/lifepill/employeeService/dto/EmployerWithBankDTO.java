@@ -1,8 +1,8 @@
 package com.lifepill.employeeService.dto;
 
-import com.lifepill.possystem.entity.EmployerBankDetails;
-import com.lifepill.possystem.entity.enums.Gender;
-import com.lifepill.possystem.entity.enums.Role;
+import com.lifepill.employeeService.entity.EmployerBankDetails;
+import com.lifepill.employeeService.entity.enums.Gender;
+import com.lifepill.employeeService.entity.enums.Role;
 import lombok.*;
 
 import java.util.Date;
