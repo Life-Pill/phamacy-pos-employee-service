@@ -13,11 +13,4 @@ import org.springframework.stereotype.Repository;
 @EnableJpaRepositories
 public interface EmployerBankDetailsRepository extends JpaRepository<EmployerBankDetails, Long> {
 
-    /**
-     * Find by employer id employer bank details.
-     *
-     * @param employerId the employer id
-     * @return the employer bank details
-     */
-    EmployerBankDetails findByEmployerId(long employerId);
 }

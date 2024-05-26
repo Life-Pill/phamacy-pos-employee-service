@@ -1,12 +1,6 @@
 package com.lifepill.employeeService.controller;
 
-import com.lifepill.employeeService.dto.request.EmployerPasswordResetDTO;
-import com.lifepill.employeeService.dto.request.EmployerRecentPinUpdateDTO;
-import com.lifepill.employeeService.service.EmployerService;
 import lombok.AllArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,30 +12,5 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class CashierController {
 
-    private EmployerService employerService;
 
-    /**
-     * Updates the password of a cashier.
-     *
-     * @param cashierPasswordResetDTO DTO containing details necessary for resetting the password.
-     * @return A message indicating the success or failure of the password update operation.
-     */
-    @PutMapping("/updatePassword")
-    @Transactional
-    public String updateEmployerPassword(@RequestBody EmployerPasswordResetDTO cashierPasswordResetDTO) {
-        String message = employerService.updateEmployerPassword(cashierPasswordResetDTO);
-        return message;
-    }
-
-    /**
-     * Updates the recent PIN of a cashier.
-     *
-     * @param cashierRecentPinUpdateDTO DTO containing details necessary for updating the recent PIN.
-     * @return A message indicating the success or failure of the recent PIN update operation.
-     */
-    @PutMapping("/updateRecentPin")
-    @Transactional
-    public String updateRecentPin(@RequestBody EmployerRecentPinUpdateDTO cashierRecentPinUpdateDTO) {
-        return employerService.updateRecentPin(cashierRecentPinUpdateDTO);
-    }
 }

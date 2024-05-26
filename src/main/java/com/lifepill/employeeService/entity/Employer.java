@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "employer")
 @Builder
-public class Employer implements UserDetails {
+public class Employer {
     @Id
     @Column(name = "employer_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -75,24 +75,24 @@ public class Employer implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "role",length = 15,nullable = false)
     private Role role;
-
+/*
     @OneToMany(mappedBy = "employer", fetch = FetchType.EAGER)
-    private Set<Order> orders;
+    private Set<Order> orders;*/
 
     @ManyToOne
     @JoinColumn(name = "employer_bank_details_id", nullable = true)
     private EmployerBankDetails employerBankDetails;
 
-    @ManyToOne
+   /* @ManyToOne
     @JoinColumn(name = "brach_id", nullable = false)
-    private Branch branch;
+    private Branch branch;*/
 
-    @Override
+/*    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
-    }
+    }*/
 
-    @Override
+/*    @Override
     public String getPassword() {
         return employerPassword;
     }
@@ -120,5 +120,5 @@ public class Employer implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
+    }*/
 }
