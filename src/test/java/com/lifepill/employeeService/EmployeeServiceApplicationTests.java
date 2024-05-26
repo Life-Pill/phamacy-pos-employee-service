@@ -1,4 +1,4 @@
-package com.lifepill.employee_service;
+package com.lifepill.employeeService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
