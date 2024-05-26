@@ -7,7 +7,9 @@ import com.lifepill.employeeService.util.StandardResponse;
 import com.lifepill.employeeService.util.mappers.EmployerMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,5 +68,30 @@ public class EmployerController {
                 new StandardResponse(201, "successfully saved", employerDTO),
                 HttpStatus.CREATED
         );
+    }
+
+    /**
+     * Retrieves the profile photo of an employer by ID.
+     *
+     * @param employerId The ID of the employer.
+     * @return ResponseEntity containing the profile photo byte array.
+     */
+    @GetMapping("/profile-photo/{employerId}")
+    @Transactional
+    public ResponseEntity<byte[]> getProfilePhoto(@PathVariable long employerId) {
+        // Retrieve the cashier entity by ID
+        EmployerDTO cashier = employerService.getEmployerById(employerId);
+
+        // Check if the cashier exists
+        if (cashier != null && cashier.getProfileImage() != null) {
+            // Return the profile image byte array with appropriate headers
+            return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.IMAGE_JPEG) // Adjust content type based on image format
+                    .body(cashier.getProfileImage());
+        } else {
+            // If the cashier or profile photo doesn't exist, return a not found response
+            return ResponseEntity.notFound().build();
+        }
     }
 }

@@ -8,4 +8,6 @@ public interface EmployerService {
     void saveEmployerWithoutImage(EmployerWithoutImageDTO cashierWithoutImageDTO);
 
     void saveEmployer(EmployerDTO employerDTO);
+
+    EmployerDTO getEmployerById(long employerId);
 }

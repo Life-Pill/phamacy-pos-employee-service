@@ -116,6 +116,10 @@ public class EmployerServiceIMPL implements EmployerService {
                     Objects.requireNonNull(standardResponseResponseEntity.getBody())
                             .getData(), BranchDTO.class
             );
+            if (branchDTO.getBranchId() == 0) {
+                throw new NotFoundException("Branch not found for the given branch id:"
+                        + employerDTO.getBranchId());
+            }
             // TODO: response employeeID get as 0. need to correct
 
             // Map EmployerDTO to Employer entity
@@ -124,4 +128,23 @@ public class EmployerServiceIMPL implements EmployerService {
             employerRepository.save(employer);
         }
     }
+
+    /**
+     * Retrieves an employer by their ID.
+     *
+     * @param employerId The ID of the employer to retrieve.
+     * @return The DTO representing the employer.
+     * @throws NotFoundException If no employer is found with the specified ID.
+     */
+    @Override
+    public EmployerDTO getEmployerById(long employerId) {
+        if (employerRepository.existsById(employerId)){
+            Employer employer = employerRepository.getReferenceById(employerId);
+            return modelMapper.map(employer, EmployerDTO.class);
+        }else {
+            throw  new NotFoundException("No employer found for that id");
+        }
+    }
+
+
 }
