@@ -5,6 +5,7 @@ import com.lifepill.employeeService.entity.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -16,7 +17,7 @@ import java.util.Date;
 @Data
 public class EmployerDTO {
     private long employerId;
-    private long branchId;
+    private int branchId;
     private String employerNicName;
     private String employerFirstName;
     private String employerLastName;
@@ -28,6 +29,7 @@ public class EmployerDTO {
     private String employerNic;
     private boolean isActiveStatus;
     private Gender gender;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
     private Role role;
     private int pin;

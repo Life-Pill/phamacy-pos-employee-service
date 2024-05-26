@@ -1,6 +1,7 @@
 package com.lifepill.employeeService.service.impl;
 
 import com.lifepill.employeeService.dto.BranchDTO;
+import com.lifepill.employeeService.dto.EmployerDTO;
 import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
 import com.lifepill.employeeService.entity.Employer;
 import com.lifepill.employeeService.exception.EntityDuplicationException;
@@ -42,12 +43,11 @@ public class EmployerServiceIMPL implements EmployerService {
      * If the employer is saved successfully, it returns a success message.
      *
      * @param employerWithoutImageDTO The employer data transfer object without an image.
-     * @return A message indicating the success of the operation.
      * @throws EntityDuplicationException If the employer already exists.
      * @throws NotFoundException          If the associated branch is not found.
      */
     @Override
-    public String saveEmployerWithoutImage(EmployerWithoutImageDTO employerWithoutImageDTO) {
+    public void saveEmployerWithoutImage(EmployerWithoutImageDTO employerWithoutImageDTO) {
         // check if the employer already exists email or id
         if (employerRepository.existsById(employerWithoutImageDTO.getEmployerId())
                 || employerRepository.existsAllByEmployerEmail(employerWithoutImageDTO.getEmployerEmail())) {
@@ -85,7 +85,43 @@ public class EmployerServiceIMPL implements EmployerService {
             } else {
                 throw new NotFoundException("Employer not found after saving");
             }
-            return "Employer Saved";
+        }
+    }
+
+    /**
+     * Saves an employer with image.
+     *
+     * @param employerDTO The employer data transfer object.
+     * @throws EntityDuplicationException If the employer already exists.
+     * @throws NotFoundException          If the associated branch is not found.
+     */
+    @Override
+    public void saveEmployer(EmployerDTO employerDTO){
+        // check if the cashier already exists email or id
+        if (employerRepository.existsById(employerDTO.getEmployerId()) ||
+                employerRepository.existsAllByEmployerEmail(employerDTO.getEmployerEmail())) {
+            throw new EntityDuplicationException("Employer already exists");
+        } else {
+            // Retrieve the Branch entity by its ID
+            ResponseEntity<StandardResponse> standardResponseResponseEntity =
+                    apiClient.getBranchById(employerDTO.getBranchId());
+
+            // Check if the branch exists
+            if (standardResponseResponseEntity.getStatusCode() != HttpStatus.OK) {
+                String errorMessage = standardResponseResponseEntity.getBody().getMessage();
+                throw new NotFoundException(errorMessage);
+            }
+            //TODO: Check if the branch exists
+            BranchDTO branchDTO = modelMapper.map(
+                    Objects.requireNonNull(standardResponseResponseEntity.getBody())
+                            .getData(), BranchDTO.class
+            );
+            // TODO: response employeeID get as 0. need to correct
+
+            // Map EmployerDTO to Employer entity
+            Employer employer = modelMapper.map(employerDTO, Employer.class);
+            // Save the Employer entity
+            employerRepository.save(employer);
         }
     }
 }

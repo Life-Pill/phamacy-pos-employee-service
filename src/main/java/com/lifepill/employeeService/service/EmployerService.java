@@ -1,8 +1,11 @@
 package com.lifepill.employeeService.service;
 
+import com.lifepill.employeeService.dto.EmployerDTO;
 import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
 
 public interface EmployerService {
 
-    String saveEmployerWithoutImage(EmployerWithoutImageDTO cashierWithoutImageDTO);
+    void saveEmployerWithoutImage(EmployerWithoutImageDTO cashierWithoutImageDTO);
+
+    void saveEmployer(EmployerDTO employerDTO);
 }
