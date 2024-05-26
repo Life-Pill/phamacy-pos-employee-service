@@ -20,11 +20,6 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-
-//        // Add explicit mapping for categoryId
-//        modelMapper.typeMap(ItemSaveRequestCategoryDTO.class, ItemCategory.class)
-//                .addMapping(ItemSaveRequestCategoryDTO::getCategoryId, ItemCategory::setCategoryId);
-
         return modelMapper;
     }
 }
