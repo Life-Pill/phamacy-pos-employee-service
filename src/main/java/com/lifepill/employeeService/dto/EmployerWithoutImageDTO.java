@@ -16,7 +16,7 @@ import java.util.Date;
 @Data
 public class EmployerWithoutImageDTO {
     private long employerId;
-    private long branchId;
+    private int branchId;
     private String employerNicName;
     private String employerFirstName;
     private String employerLastName;
