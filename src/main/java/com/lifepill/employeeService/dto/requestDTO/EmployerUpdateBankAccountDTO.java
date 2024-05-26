@@ -1,4 +1,4 @@
-package com.lifepill.employeeService.dto.request;
+package com.lifepill.employeeService.dto.requestDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

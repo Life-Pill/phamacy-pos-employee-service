@@ -17,4 +17,7 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface EmployerRepository extends JpaRepository<Employer,Long> {
 
+    Optional<Employer> findByEmployerEmail(String employerEmail);
+
+    boolean existsAllByEmployerEmail(String employerEmail);
 }

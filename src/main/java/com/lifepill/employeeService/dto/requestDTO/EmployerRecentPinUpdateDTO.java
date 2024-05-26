@@ -1,16 +1,16 @@
-package com.lifepill.employeeService.dto.request;
+package com.lifepill.employeeService.dto.requestDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The type Employer password reset dto.
+ * The type Employer recent pin update dto.
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class EmployerPasswordResetDTO {
+public class EmployerRecentPinUpdateDTO {
     private long employerId;
-    private String employerPassword;
+    private int pin;
 }

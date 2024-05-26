@@ -1,4 +1,4 @@
-package com.lifepill.employeeService.dto.request;
+package com.lifepill.employeeService.dto.requestDTO;
 
 import com.lifepill.employeeService.entity.enums.Gender;
 import com.lifepill.employeeService.entity.enums.Role;

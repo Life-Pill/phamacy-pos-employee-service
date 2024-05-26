@@ -8,8 +8,6 @@ import jakarta.persistence.Entity;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
-
 
 /**
  * The type Employer.
@@ -75,50 +73,12 @@ public class Employer {
     @Enumerated(EnumType.STRING)
     @Column(name = "role",length = 15,nullable = false)
     private Role role;
-/*
-    @OneToMany(mappedBy = "employer", fetch = FetchType.EAGER)
-    private Set<Order> orders;*/
+
+    @Column(name = "branch_id")
+    private int branchId;
 
     @ManyToOne
     @JoinColumn(name = "employer_bank_details_id", nullable = true)
     private EmployerBankDetails employerBankDetails;
 
-   /* @ManyToOne
-    @JoinColumn(name = "brach_id", nullable = false)
-    private Branch branch;*/
-
-/*    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
-    }*/
-
-/*    @Override
-    public String getPassword() {
-        return employerPassword;
-    }
-
-    @Override
-    public String getUsername() {
-        return employerEmail;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }*/
 }
