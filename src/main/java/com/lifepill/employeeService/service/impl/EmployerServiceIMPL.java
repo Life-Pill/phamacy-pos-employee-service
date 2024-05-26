@@ -11,6 +11,7 @@ import com.lifepill.employeeService.service.EmployerService;
 import com.lifepill.employeeService.util.StandardResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +56,11 @@ public class EmployerServiceIMPL implements EmployerService {
 
             ResponseEntity<StandardResponse> standardResponseResponseEntity =
                     apiClient.getBranchById(employerWithoutImageDTO.getBranchId());
+
+            if (standardResponseResponseEntity.getStatusCode() != HttpStatus.OK) {
+                String errorMessage = standardResponseResponseEntity.getBody().getMessage();
+                throw new NotFoundException(errorMessage);
+            }
 
             BranchDTO branchDTO = modelMapper.map(
                     Objects.requireNonNull(standardResponseResponseEntity.getBody())
