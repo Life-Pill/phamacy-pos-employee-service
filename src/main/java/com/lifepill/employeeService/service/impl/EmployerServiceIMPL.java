@@ -4,6 +4,7 @@ import com.lifepill.employeeService.dto.*;
 import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateBankAccountDTO;
+import com.lifepill.employeeService.dto.responseDTO.EmployerAllDetailsDTO;
 import com.lifepill.employeeService.entity.Employer;
 import com.lifepill.employeeService.entity.EmployerBankDetails;
 import com.lifepill.employeeService.exception.EntityDuplicationException;
@@ -309,6 +310,28 @@ public class EmployerServiceIMPL implements EmployerService {
         EmployerBankDetails bankDetails = employer.getEmployerBankDetails();
 
         return modelMapper.map(bankDetails, EmployerBankDetailsDTO.class);
+    }
+
+    /**
+     * This method is used to retrieve all details of an employer by their ID.
+     * It first retrieves the basic employer details by calling the getEmployerById method with the provided employer ID.
+     * Then, it retrieves the bank details of the employer by calling the getEmployerBankDetailsById method with the same employer ID.
+     * It then creates a new EmployerAllDetailsDTO object and sets the retrieved employer and bank details into it.
+     * Finally, it returns the EmployerAllDetailsDTO object which now contains all details of the employer.
+     *
+     * @param employerId The ID of the employer whose details are to be retrieved.
+     * @return EmployerAllDetailsDTO containing all details of the specified employer.
+     */
+    @Override
+    public EmployerAllDetailsDTO getAllDetails(int employerId) {
+        EmployerDTO employerDTO = getEmployerById(employerId);
+        EmployerBankDetailsDTO employerBankDetailsDTO = getEmployerBankDetailsById(employerId);
+
+        EmployerAllDetailsDTO employerAllDetailsDTO = new EmployerAllDetailsDTO();
+        employerAllDetailsDTO.setEmployerDTO(employerDTO);
+        employerAllDetailsDTO.setEmployerBankDetailsDTO(employerBankDetailsDTO);
+
+        return employerAllDetailsDTO;
     }
 
 }

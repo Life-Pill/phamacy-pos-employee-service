@@ -7,6 +7,7 @@ import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateBankAccountDTO;
+import com.lifepill.employeeService.dto.responseDTO.EmployerAllDetailsDTO;
 
 public interface EmployerService {
 
@@ -23,4 +24,6 @@ public interface EmployerService {
     EmployerWithBankDTO updateEmployerBankAccountDetails(EmployerUpdateBankAccountDTO employerUpdateBankAccountDTO);
 
     EmployerBankDetailsDTO getEmployerBankDetailsById(long employerId);
+
+    EmployerAllDetailsDTO getAllDetails(int employerId);
 }

@@ -7,6 +7,7 @@ import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateBankAccountDTO;
+import com.lifepill.employeeService.dto.responseDTO.EmployerAllDetailsDTO;
 import com.lifepill.employeeService.exception.NotFoundException;
 import com.lifepill.employeeService.service.EmployerService;
 import com.lifepill.employeeService.util.StandardResponse;
@@ -31,7 +32,6 @@ public class EmployerController {
 
     private EmployerService employerService;
     private EmployerMapper employerMapper;
-
 
     /**
      * Saves an employer without an image.
@@ -172,7 +172,10 @@ public class EmployerController {
             ); // Utilize the mapper// Map DTO to Entity
             return ResponseEntity.ok(
                     new StandardResponse(
-                            201, "SUCCESS", employerWithBankDTO)
+                            201,
+                            "SUCCESS",
+                            employerWithBankDTO
+                    )
             );
         } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -180,5 +183,40 @@ public class EmployerController {
                             new StandardResponse(404, ex.getMessage(), null)
                     );
         }
+    }
+
+    /**
+     * Retrieves an employer by ID.
+     *
+     * @param employerId The ID of the employer to retrieve.
+     * @return The EmployerDTO object representing the employer.
+     */
+    @GetMapping(path = "/get-by-employee-id", params = "employerId")
+    @Transactional
+    public ResponseEntity<StandardResponse> getEmployerById(@RequestParam(value = "employerId") int employerId) {
+        EmployerDTO employerDTO = employerService.getEmployerById(employerId);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200, "SUCCESS", employerDTO),
+                HttpStatus.OK
+        );
+    }
+
+    /**
+     * Retrieves all details of an employer by ID.
+     *
+     * @param employerId The ID of the employer to retrieve.
+     * @return The EmployerAllDetailsDTO object representing the employer.
+     */
+    @GetMapping(path = "/get-all-employee-details-by-id", params = "employerId")
+    @Transactional
+    public ResponseEntity<StandardResponse> getEmployerByIdWithImage(
+            @RequestParam(value = "employerId") int employerId
+    ) {
+        EmployerAllDetailsDTO employerAllDetailsDTO = employerService.getAllDetails(employerId);
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200, "SUCCESS", employerAllDetailsDTO),
+                HttpStatus.OK
+        );
     }
 }
