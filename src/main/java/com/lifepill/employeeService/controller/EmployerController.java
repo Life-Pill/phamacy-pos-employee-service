@@ -13,6 +13,7 @@ import com.lifepill.employeeService.service.EmployerService;
 import com.lifepill.employeeService.util.StandardResponse;
 import com.lifepill.employeeService.util.mappers.EmployerMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -218,5 +219,25 @@ public class EmployerController {
                 new StandardResponse(200, "SUCCESS", employerAllDetailsDTO),
                 HttpStatus.OK
         );
+    }
+
+    /**
+     * Retrieves the profile photo of an employer by ID.
+     *
+     * @param employerId The ID of the employer.
+     * @return ResponseEntity containing the profile photo byte array.
+     */
+    @GetMapping("/view-image/{employerId}")
+    @Transactional
+    public ResponseEntity<byte[]> viewImage(@PathVariable int employerId) {
+        byte[] imageData = employerService.getImageData(employerId);
+
+        if (imageData != null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG); // Adjust the media type based on your image format
+            return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

@@ -334,4 +334,11 @@ public class EmployerServiceIMPL implements EmployerService {
         return employerAllDetailsDTO;
     }
 
+    @Override
+    public byte[] getImageData(int employerId) {
+        Optional<Employer> branchOptional = employerRepository.findById((long) employerId);
+        return branchOptional.map(Employer::getProfileImage).orElse(null);
+    }
+
+
 }

@@ -26,4 +26,6 @@ public interface EmployerService {
     EmployerBankDetailsDTO getEmployerBankDetailsById(long employerId);
 
     EmployerAllDetailsDTO getAllDetails(int employerId);
+
+    byte[] getImageData(int employerId);
 }
