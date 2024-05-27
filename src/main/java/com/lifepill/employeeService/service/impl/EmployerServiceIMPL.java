@@ -68,7 +68,7 @@ public class EmployerServiceIMPL implements EmployerService {
                     apiClient.getBranchById(employerWithoutImageDTO.getBranchId());
 
             if (standardResponseResponseEntity.getStatusCode() != HttpStatus.OK) {
-                String errorMessage = standardResponseResponseEntity.getBody().getMessage();
+                String errorMessage = Objects.requireNonNull(standardResponseResponseEntity.getBody()).getMessage();
                 throw new NotFoundException(errorMessage);
             }
 
@@ -118,7 +118,7 @@ public class EmployerServiceIMPL implements EmployerService {
 
             // Check if the branch exists
             if (standardResponseResponseEntity.getStatusCode() != HttpStatus.OK) {
-                String errorMessage = standardResponseResponseEntity.getBody().getMessage();
+                String errorMessage = Objects.requireNonNull(standardResponseResponseEntity.getBody()).getMessage();
                 throw new NotFoundException(errorMessage);
             }
             //TODO: Check if the branch exists
@@ -195,7 +195,7 @@ public class EmployerServiceIMPL implements EmployerService {
                 apiClient.getBranchById(employerAllDetailsUpdateDTO.getBranchId());
 
         if (standardResponseResponseEntity.getStatusCode() != HttpStatus.OK) {
-            String errorMessage = standardResponseResponseEntity.getBody().getMessage();
+            String errorMessage = Objects.requireNonNull(standardResponseResponseEntity.getBody()).getMessage();
             throw new NotFoundException(errorMessage);
 
         }
