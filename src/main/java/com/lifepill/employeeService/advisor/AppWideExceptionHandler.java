@@ -16,7 +16,7 @@ public class AppWideExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<StandardResponse> handleNotFoundException(NotFoundException e) {
         return new ResponseEntity<StandardResponse>(
-                new StandardResponse(404, "Error (Not Found)", e.getMessage()),
+                new StandardResponse(404, "An unexpected error occurred.", e.getMessage()),
                 HttpStatus.NOT_FOUND
         );
     }
