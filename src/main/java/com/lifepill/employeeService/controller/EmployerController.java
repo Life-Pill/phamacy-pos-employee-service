@@ -270,4 +270,31 @@ public class EmployerController {
                 HttpStatus.OK
         );
     }
+
+    /**
+     * Retrieves all employers.
+     *
+     * @return ResponseEntity containing a list of all employers.
+     */
+    @GetMapping(path = "/get-all-employers-by-active-state/{status}")
+    @Transactional
+    public List<EmployerDTO> getAllEmployerByActiveState(@PathVariable(value = "status") boolean activeState) {
+        List<EmployerDTO> allemployer = employerService.getAllEmployerByActiveState(activeState);
+        return allemployer;
+    }
+
+    /**
+     * Retrieves bank details of all employers.
+     *
+     * @return ResponseEntity containing a StandardResponse object with a list of employer bank details.
+     */
+    @GetMapping(path = "/get-all-employers-bank-details")
+    @Transactional
+    public ResponseEntity<StandardResponse> getAllEmployerBankDetails() {
+        List<EmployerUpdateBankAccountDTO> allCashiersBankDetails = employerService.getAllEmployerBankDetails();
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(201, "SUCCESS", allCashiersBankDetails),
+                HttpStatus.OK
+        );
+    }
 }

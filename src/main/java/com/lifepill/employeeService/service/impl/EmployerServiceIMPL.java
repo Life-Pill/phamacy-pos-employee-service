@@ -396,4 +396,55 @@ public class EmployerServiceIMPL implements EmployerService {
         return new EmployerAllDetailsDTO(employerDTO, employerBankDetailsDTO);
     }
 
+
+    /**
+     * Retrieves all employers with the specified active state.
+     *
+     * @param activeState The active state of the employers to retrieve.
+     * @return A list of DTOs containing employer details.
+     * @throws NotFoundException If no employers are found with the specified active state.
+     */
+    @Override
+    public List<EmployerDTO> getAllEmployerByActiveState(boolean activeState) {
+        List<Employer> getAllEmployers = employerRepository.findByIsActiveStatusEquals(activeState);
+        return getEmployerDTOS(getAllEmployers);
+    }
+
+    private List<EmployerDTO> getEmployerDTOS(List<Employer> getAllEmployers) {
+        if (!getAllEmployers.isEmpty()){
+            List<EmployerDTO> employerDTOList = new ArrayList<>();
+            for (Employer employer : getAllEmployers){
+                EmployerDTO employerDTO = modelMapper.map(employer, EmployerDTO.class);
+                employerDTOList.add(employerDTO);
+            }
+            return employerDTOList;
+        }else {
+            throw new NotFoundException("No Employer Found");
+        }
+    }
+
+
+    /**
+     * Retrieves all employer bank account details.
+     *
+     * @return A list of DTOs containing employer bank account details.
+     * @throws NotFoundException If no employer bank details are found.
+     */
+    @Override
+    public List<EmployerUpdateBankAccountDTO> getAllEmployerBankDetails() {
+        List<EmployerBankDetails> getAllCashiersBankDetails = employerBankDetailsRepository.findAll();
+
+        if (!getAllCashiersBankDetails.isEmpty()){
+            List<EmployerUpdateBankAccountDTO> cashierUpdateBankAccountDTOList = new ArrayList<>();
+            for (EmployerBankDetails employerBankDetails : getAllCashiersBankDetails){
+                EmployerUpdateBankAccountDTO cashierUpdateBankAccountDTO =
+                        modelMapper.map(employerBankDetails, EmployerUpdateBankAccountDTO.class);
+                cashierUpdateBankAccountDTOList.add(cashierUpdateBankAccountDTO);
+            }
+            return cashierUpdateBankAccountDTOList;
+        }else {
+            throw new NotFoundException("No Employer Bank Details Found");
+        }
+    }
+
 }

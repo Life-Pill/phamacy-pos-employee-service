@@ -34,4 +34,8 @@ public interface EmployerService {
     String deleteEmployer(long employerId);
 
     List<EmployerAllDetailsDTO> getAllEmployer();
+
+    List<EmployerDTO> getAllEmployerByActiveState(boolean activeState);
+
+    List<EmployerUpdateBankAccountDTO> getAllEmployerBankDetails();
 }

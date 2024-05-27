@@ -20,4 +20,7 @@ public interface EmployerRepository extends JpaRepository<Employer,Long> {
     Optional<Employer> findByEmployerEmail(String employerEmail);
 
     boolean existsAllByEmployerEmail(String employerEmail);
+
+    //TODO: resolve IsActiveStatus to new updated field
+    List<Employer> findByIsActiveStatusEquals(boolean activeState);
 }
