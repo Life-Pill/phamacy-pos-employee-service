@@ -13,4 +13,5 @@ import org.springframework.stereotype.Repository;
 @EnableJpaRepositories
 public interface EmployerBankDetailsRepository extends JpaRepository<EmployerBankDetails, Long> {
 
+    EmployerBankDetails findByEmployerId(long employerId);
 }

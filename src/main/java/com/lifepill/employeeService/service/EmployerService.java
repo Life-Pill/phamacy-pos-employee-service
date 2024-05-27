@@ -38,4 +38,5 @@ public interface EmployerService {
     List<EmployerDTO> getAllEmployerByActiveState(boolean activeState);
 
     List<EmployerUpdateBankAccountDTO> getAllEmployerBankDetails();
+
 }

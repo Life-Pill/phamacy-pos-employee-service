@@ -297,4 +297,39 @@ public class EmployerController {
                 HttpStatus.OK
         );
     }
+
+    /**
+     * Retrieves bank details of an employer by ID.
+     *
+     * @param employerId The ID of the employer.
+     * @return ResponseEntity containing the bank details of the employer,
+     * or an HTTP status indicating the failure if the employer is not found.
+     */
+    @GetMapping("/bank-details/{employerId}")
+    public ResponseEntity<StandardResponse> getEmployerBankDetailsById(@PathVariable long employerId) {
+        try {
+            // Retrieve bank details of the employer by ID
+            EmployerBankDetailsDTO bankDetailsDTO = employerService.getEmployerBankDetailsById(employerId);
+
+            if (bankDetailsDTO != null) {
+                // Return the bank details with a success response
+                return ResponseEntity.ok(
+                        new StandardResponse(200, "SUCCESS", bankDetailsDTO)
+                );
+            } else {
+                // If the bank details are not found, return a not found response
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new StandardResponse(
+                                404,
+                                "Bank details not found for employer ID: " + employerId,
+                                null)
+                        );
+            }
+        } catch (NotFoundException ex) {
+            // If an exception occurs (e.g., employer not found), return a not found response
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new StandardResponse(404, ex.getMessage(), null));
+        }
+    }
+
 }
