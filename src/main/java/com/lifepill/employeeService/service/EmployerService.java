@@ -1,9 +1,12 @@
 package com.lifepill.employeeService.service;
 
+import com.lifepill.employeeService.dto.EmployerBankDetailsDTO;
 import com.lifepill.employeeService.dto.EmployerDTO;
+import com.lifepill.employeeService.dto.EmployerWithBankDTO;
 import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
+import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateBankAccountDTO;
 
 public interface EmployerService {
 
@@ -16,4 +19,8 @@ public interface EmployerService {
     String updateEmployer(Long employerId, EmployerAllDetailsUpdateDTO cashierAllDetailsUpdateDTO);
 
     String updateEmployerAccountDetails(EmployerUpdateAccountDetailsDTO cashierUpdateAccountDetailsDTO);
+
+    EmployerWithBankDTO updateEmployerBankAccountDetails(EmployerUpdateBankAccountDTO employerUpdateBankAccountDTO);
+
+    EmployerBankDetailsDTO getEmployerBankDetailsById(long employerId);
 }

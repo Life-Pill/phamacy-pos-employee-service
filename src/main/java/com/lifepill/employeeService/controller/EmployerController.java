@@ -1,9 +1,13 @@
 package com.lifepill.employeeService.controller;
 
+import com.lifepill.employeeService.dto.EmployerBankDetailsDTO;
 import com.lifepill.employeeService.dto.EmployerDTO;
+import com.lifepill.employeeService.dto.EmployerWithBankDTO;
 import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
+import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateBankAccountDTO;
+import com.lifepill.employeeService.exception.NotFoundException;
 import com.lifepill.employeeService.service.EmployerService;
 import com.lifepill.employeeService.util.StandardResponse;
 import com.lifepill.employeeService.util.mappers.EmployerMapper;
@@ -134,8 +138,47 @@ public class EmployerController {
     ) {
         String message = employerService.updateEmployerAccountDetails(cashierUpdateAccountDetailsDTO);
         return new ResponseEntity<>(
-                new StandardResponse(201, message, null),
+                new StandardResponse(
+                        201,
+                        message,
+                        cashierUpdateAccountDetailsDTO
+                ),
                 HttpStatus.OK
         );
+    }
+
+    /**
+     * Updates the bank account details of an employer.
+     *
+     * @param employerId                   The ID of the employer to update.
+     * @param employerUpdateBankAccountDTO The DTO containing the updated bank account details.
+     * @return ResponseEntity containing the updated employer data
+     * along with bank account details,
+     * or an HTTP status indicating the failure if the employer is not found.
+     */
+    @PutMapping("/updateEmployerBankAccountDetailsWithId/{employerId}")
+    @Transactional
+    public ResponseEntity<StandardResponse> updateEmployerBankAccountDetailsWithId(
+            @PathVariable long employerId,
+            @RequestBody EmployerUpdateBankAccountDTO employerUpdateBankAccountDTO
+    ) {
+        try {
+            EmployerWithBankDTO employerWithBankDTO = employerService
+                    .updateEmployerBankAccountDetails(employerUpdateBankAccountDTO);
+            EmployerBankDetailsDTO bankDetailsDTO = employerService
+                    .getEmployerBankDetailsById(employerId);
+            employerWithBankDTO.setEmployerBankDetails(
+                    employerMapper.mapBankDetailsDTOToEntity(bankDetailsDTO)
+            ); // Utilize the mapper// Map DTO to Entity
+            return ResponseEntity.ok(
+                    new StandardResponse(
+                            201, "SUCCESS", employerWithBankDTO)
+            );
+        } catch (NotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(
+                            new StandardResponse(404, ex.getMessage(), null)
+                    );
+        }
     }
 }
