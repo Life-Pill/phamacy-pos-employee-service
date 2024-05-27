@@ -3,6 +3,7 @@ package com.lifepill.employeeService.service.impl;
 import com.lifepill.employeeService.dto.BranchDTO;
 import com.lifepill.employeeService.dto.EmployerDTO;
 import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
+import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
 import com.lifepill.employeeService.entity.Employer;
 import com.lifepill.employeeService.exception.EntityDuplicationException;
 import com.lifepill.employeeService.exception.NotFoundException;
@@ -144,6 +145,55 @@ public class EmployerServiceIMPL implements EmployerService {
         }else {
             throw  new NotFoundException("No employer found for that id");
         }
+    }
+
+    /**
+     * Updates details of an employer.
+     *
+     * @param employerId                The ID of the employer to update.
+     * @param employerAllDetailsUpdateDTO The DTO containing updated employer details.
+     * @return A message indicating the success of the operation.
+     * @throws NotFoundException If the employer with the given ID is not found.
+     */
+    @Override
+    public String updateEmployer(Long employerId, EmployerAllDetailsUpdateDTO employerAllDetailsUpdateDTO) {
+        // Check if the employer exists
+        Employer existingEmployer = employerRepository.findById(employerId)
+                .orElseThrow(() -> new NotFoundException("Employer not found with ID: " + employerId));
+
+        // Check if the email is already associated with another employer
+        if (!existingEmployer.getEmployerEmail().equals(employerAllDetailsUpdateDTO.getEmployerEmail()) &&
+                employerRepository.existsAllByEmployerEmail(employerAllDetailsUpdateDTO.getEmployerEmail())) {
+            throw new EntityDuplicationException("Email already exists");
+        }
+
+        // Map updated details to existing employer
+        modelMapper.map(employerAllDetailsUpdateDTO, existingEmployer);
+
+        // If the password is provided, encode it before updating
+        //TODO: password encoder
+     /*   if (employerAllDetailsUpdateDTO.getEmployerPassword() != null) {
+
+            String encodedPassword = passwordEncoder.encode(employerAllDetailsUpdateDTO.getEmployerPassword());
+            existingEmployer.setEmployerPassword(encodedPassword);
+        }*/
+
+       //check if the provide branch id is existing or not
+        ResponseEntity<StandardResponse> standardResponseResponseEntity =
+                apiClient.getBranchById(employerAllDetailsUpdateDTO.getBranchId());
+
+        if (standardResponseResponseEntity.getStatusCode() != HttpStatus.OK) {
+            String errorMessage = standardResponseResponseEntity.getBody().getMessage();
+            throw new NotFoundException(errorMessage);
+
+        }
+
+
+
+        // Save the updated employer
+        employerRepository.save(existingEmployer);
+
+        return "Employer: "+ employerId+", updated successfully";
     }
 
 

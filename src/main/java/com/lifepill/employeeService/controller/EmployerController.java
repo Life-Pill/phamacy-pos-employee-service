@@ -2,6 +2,7 @@ package com.lifepill.employeeService.controller;
 
 import com.lifepill.employeeService.dto.EmployerDTO;
 import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
+import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
 import com.lifepill.employeeService.service.EmployerService;
 import com.lifepill.employeeService.util.StandardResponse;
 import com.lifepill.employeeService.util.mappers.EmployerMapper;
@@ -93,5 +94,29 @@ public class EmployerController {
             // If the cashier or profile photo doesn't exist, return a not found response
             return ResponseEntity.notFound().build();
         }
+    }
+
+    /**
+     * Updates details of an employer.
+     *
+     * @param employerId                 The ID of the employer to be updated.
+     * @param cashierAllDetailsUpdateDTO DTO containing updated details of the employer.
+     * @return A string indicating the success of the operation.
+     */
+    @PutMapping("/update/{employerId}")
+    @Transactional
+    public ResponseEntity<StandardResponse> updateEmployer(
+            @PathVariable Long employerId,
+            @RequestBody EmployerAllDetailsUpdateDTO cashierAllDetailsUpdateDTO
+    ) {
+        String message = employerService.updateEmployer(employerId, cashierAllDetailsUpdateDTO);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(
+                        201,
+                        message,
+                        cashierAllDetailsUpdateDTO
+                ),
+                HttpStatus.OK
+        );
     }
 }
