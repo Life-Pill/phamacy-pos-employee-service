@@ -9,6 +9,8 @@ import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsD
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateBankAccountDTO;
 import com.lifepill.employeeService.dto.responseDTO.EmployerAllDetailsDTO;
 
+import java.util.List;
+
 public interface EmployerService {
 
     void saveEmployerWithoutImage(EmployerWithoutImageDTO cashierWithoutImageDTO);
@@ -30,4 +32,6 @@ public interface EmployerService {
     byte[] getImageData(long employerId);
 
     String deleteEmployer(long employerId);
+
+    List<EmployerAllDetailsDTO> getAllEmployer();
 }

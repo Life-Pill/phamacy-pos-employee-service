@@ -22,8 +22,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * EmployerServiceIMPL is a service class that implements the EmployerService interface.
@@ -358,5 +361,39 @@ public class EmployerServiceIMPL implements EmployerService {
         }
     }
 
+    /**
+     * Retrieves all employers in the system.
+     * It first retrieves all Employer entities from the repository.
+     * Then, it converts each Employer entity to an EmployerAllDetailsDTO object by calling the convertToEmployerAllDetailsDTO method.
+     * Finally, it returns a list of EmployerAllDetailsDTO objects.
+     *
+     * @return List of EmployerAllDetailsDTO containing all details of all employers.
+     */
+    @Override
+    public List<EmployerAllDetailsDTO> getAllEmployer() {
+        List<Employer> employers = employerRepository.findAll();
+        return employers.stream()
+                .map(this::convertToEmployerAllDetailsDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Converts an Employer entity to an EmployerAllDetailsDTO object.
+     * It first maps the Employer entity to an EmployerDTO object.
+     * Then, it checks if the Employer entity has associated bank details.
+     * If it does, it maps the EmployerBankDetails entity to an EmployerBankDetailsDTO object.
+     * Finally, it creates a new EmployerAllDetailsDTO object and sets the EmployerDTO and EmployerBankDetailsDTO objects into it.
+     *
+     * @param employer The Employer entity to be converted.
+     * @return EmployerAllDetailsDTO containing all details of the specified employer.
+     */
+    private EmployerAllDetailsDTO convertToEmployerAllDetailsDTO(Employer employer) {
+        EmployerDTO employerDTO = modelMapper.map(employer, EmployerDTO.class);
+        EmployerBankDetailsDTO employerBankDetailsDTO = null;
+        if (employer.getEmployerBankDetails() != null) {
+            employerBankDetailsDTO = modelMapper.map(employer.getEmployerBankDetails(), EmployerBankDetailsDTO.class);
+        }
+        return new EmployerAllDetailsDTO(employerDTO, employerBankDetailsDTO);
+    }
 
 }

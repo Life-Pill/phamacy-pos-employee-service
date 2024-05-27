@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Controller class for managing employer-related operations.
@@ -252,6 +253,20 @@ public class EmployerController {
         String deleted = employerService.deleteEmployer(employerId);
         return new ResponseEntity<>(
                 new StandardResponse(201, deleted, null),
+                HttpStatus.OK
+        );
+    }
+
+    /**
+     * Retrieves all employers.
+     *
+     * @return ResponseEntity containing a list of all employers.
+     */
+    @GetMapping(path = "/get-all-employers")
+    public ResponseEntity<StandardResponse> getAllEmployers() {
+        List<EmployerAllDetailsDTO> allEmployer = employerService.getAllEmployer();
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(201, "SUCCESS", allEmployer),
                 HttpStatus.OK
         );
     }
