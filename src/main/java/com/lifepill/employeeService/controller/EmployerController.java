@@ -331,5 +331,4 @@ public class EmployerController {
                     .body(new StandardResponse(404, ex.getMessage(), null));
         }
     }
-
 }

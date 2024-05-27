@@ -39,4 +39,5 @@ public interface EmployerService {
 
     List<EmployerUpdateBankAccountDTO> getAllEmployerBankDetails();
 
+    List<EmployerAllDetailsDTO> getAllEmployerByBranchId(int branchId);
 }

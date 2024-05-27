@@ -15,6 +15,7 @@ import com.lifepill.employeeService.repository.EmployerRepository;
 import com.lifepill.employeeService.service.APIClient;
 import com.lifepill.employeeService.service.EmployerService;
 import com.lifepill.employeeService.util.StandardResponse;
+import com.lifepill.employeeService.util.mappers.EmployerMapper;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,7 @@ public class EmployerServiceIMPL implements EmployerService {
     private EmployerRepository employerRepository;
     private EmployerBankDetailsRepository employerBankDetailsRepository;
     private ModelMapper modelMapper;
+    private final EmployerMapper employerMapper;
     private APIClient apiClient;
 
     /**
@@ -445,6 +447,23 @@ public class EmployerServiceIMPL implements EmployerService {
         }else {
             throw new NotFoundException("No Employer Bank Details Found");
         }
+    }
+
+    /**
+     * This method is used to retrieve all employers associated with a specific branch.
+     * It first retrieves all Employer entities associated with the given branch ID from the repository.
+     * Then, it converts each Employer entity to an EmployerAllDetailsDTO object using the employerMapper.
+     * Finally, it returns a list of EmployerAllDetailsDTO objects.
+     *
+     * @param branchId The ID of the branch whose employers are to be retrieved.
+     * @return List of EmployerAllDetailsDTO containing all details of all employers associated with the specified branch.
+     */
+    @Override
+    public List<EmployerAllDetailsDTO> getAllEmployerByBranchId(int branchId) {
+        List<Employer> employers = employerRepository.findByBranchId(branchId);
+        return employers.stream()
+                .map(employerMapper::toEmployerAllDetailsDTO)
+                .collect(Collectors.toList());
     }
 
 }
