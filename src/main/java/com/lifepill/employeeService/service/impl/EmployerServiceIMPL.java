@@ -4,6 +4,7 @@ import com.lifepill.employeeService.dto.BranchDTO;
 import com.lifepill.employeeService.dto.EmployerDTO;
 import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
+import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
 import com.lifepill.employeeService.entity.Employer;
 import com.lifepill.employeeService.exception.EntityDuplicationException;
 import com.lifepill.employeeService.exception.NotFoundException;
@@ -194,6 +195,34 @@ public class EmployerServiceIMPL implements EmployerService {
         employerRepository.save(existingEmployer);
 
         return "Employer: "+ employerId+", updated successfully";
+    }
+
+    /**
+     * Updates account details of an employer.
+     *
+     * @param employerUpdateAccountDetailsDTO The DTO containing updated employer account details.
+     * @return A message indicating the success of the operation.
+     * @throws NotFoundException If the employer with the given ID is not found.
+     */
+    @Override
+    public String updateEmployerAccountDetails(EmployerUpdateAccountDetailsDTO employerUpdateAccountDetailsDTO) {
+        if (employerRepository.existsById(employerUpdateAccountDetailsDTO.getEmployerId())){
+            Employer employer = employerRepository.getReferenceById(employerUpdateAccountDetailsDTO.getEmployerId());
+
+            employer.setEmployerFirstName(employerUpdateAccountDetailsDTO.getEmployerFirstName());
+            employer.setEmployerLastName(employerUpdateAccountDetailsDTO.getEmployerLastName());
+            employer.setGender(employerUpdateAccountDetailsDTO.getGender());
+            employer.setEmployerAddress(employerUpdateAccountDetailsDTO.getEmployerAddress());
+            employer.setDateOfBirth(employerUpdateAccountDetailsDTO.getDateOfBirth());
+
+            employerRepository.save(employer);
+
+            System.out.println(employer);
+
+            return "Successfully Update employer account details";
+        }else {
+            throw new NotFoundException("No data found for that id");
+        }
     }
 
 

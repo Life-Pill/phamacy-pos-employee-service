@@ -3,6 +3,7 @@ package com.lifepill.employeeService.controller;
 import com.lifepill.employeeService.dto.EmployerDTO;
 import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
+import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
 import com.lifepill.employeeService.service.EmployerService;
 import com.lifepill.employeeService.util.StandardResponse;
 import com.lifepill.employeeService.util.mappers.EmployerMapper;
@@ -116,6 +117,24 @@ public class EmployerController {
                         message,
                         cashierAllDetailsUpdateDTO
                 ),
+                HttpStatus.OK
+        );
+    }
+
+    /**
+     * Updates the account details of an employer.
+     *
+     * @param cashierUpdateAccountDetailsDTO DTO containing updated account details of the employer.
+     * @return A string indicating the success of the operation.
+     */
+    @PutMapping("/updateAccountDetails")
+    @Transactional
+    public ResponseEntity<StandardResponse> updateEmployerAccountDetails(
+            @RequestBody EmployerUpdateAccountDetailsDTO cashierUpdateAccountDetailsDTO
+    ) {
+        String message = employerService.updateEmployerAccountDetails(cashierUpdateAccountDetailsDTO);
+        return new ResponseEntity<>(
+                new StandardResponse(201, message, null),
                 HttpStatus.OK
         );
     }

@@ -3,6 +3,7 @@ package com.lifepill.employeeService.service;
 import com.lifepill.employeeService.dto.EmployerDTO;
 import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
+import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
 
 public interface EmployerService {
 
@@ -13,4 +14,6 @@ public interface EmployerService {
     EmployerDTO getEmployerById(long employerId);
 
     String updateEmployer(Long employerId, EmployerAllDetailsUpdateDTO cashierAllDetailsUpdateDTO);
+
+    String updateEmployerAccountDetails(EmployerUpdateAccountDetailsDTO cashierUpdateAccountDetailsDTO);
 }
