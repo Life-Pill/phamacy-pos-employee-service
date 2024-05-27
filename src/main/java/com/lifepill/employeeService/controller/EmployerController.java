@@ -229,7 +229,7 @@ public class EmployerController {
      */
     @GetMapping("/view-image/{employerId}")
     @Transactional
-    public ResponseEntity<byte[]> viewImage(@PathVariable int employerId) {
+    public ResponseEntity<byte[]> viewImage(@PathVariable long employerId) {
         byte[] imageData = employerService.getImageData(employerId);
 
         if (imageData != null) {
@@ -239,5 +239,20 @@ public class EmployerController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    /**
+     * Deletes an employer by ID.
+     *
+     * @param employerId The ID of the employer to delete.
+     * @return A string indicating the success of the operation.
+     */
+    @DeleteMapping(path = "/delete-employer-by-Id/{employerId}")
+    public ResponseEntity<StandardResponse> deleteEmployer(@PathVariable(value = "employerId") long employerId) {
+        String deleted = employerService.deleteEmployer(employerId);
+        return new ResponseEntity<>(
+                new StandardResponse(201, deleted, null),
+                HttpStatus.OK
+        );
     }
 }

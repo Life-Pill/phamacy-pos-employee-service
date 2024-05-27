@@ -335,9 +335,27 @@ public class EmployerServiceIMPL implements EmployerService {
     }
 
     @Override
-    public byte[] getImageData(int employerId) {
-        Optional<Employer> branchOptional = employerRepository.findById((long) employerId);
+    public byte[] getImageData(long employerId) {
+        Optional<Employer> branchOptional = employerRepository.findById( employerId);
         return branchOptional.map(Employer::getProfileImage).orElse(null);
+    }
+
+    /**
+     * Deletes an employer with the specified ID.
+     *
+     * @param employerId The ID of the employer to be deleted.
+     * @return A message indicating the successful deletion of the employer.
+     * @throws NotFoundException If no employer is found with the specified ID.
+     */
+    @Override
+    public String deleteEmployer(long employerId) {
+        if (employerRepository.existsById(employerId)){
+            employerRepository.deleteById(employerId);
+
+            return "deleted successfully : "+ employerId;
+        }else {
+            throw new NotFoundException("No employer found for that id");
+        }
     }
 
 

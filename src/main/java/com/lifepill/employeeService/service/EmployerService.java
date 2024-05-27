@@ -27,5 +27,7 @@ public interface EmployerService {
 
     EmployerAllDetailsDTO getAllDetails(int employerId);
 
-    byte[] getImageData(int employerId);
+    byte[] getImageData(long employerId);
+
+    String deleteEmployer(long employerId);
 }
