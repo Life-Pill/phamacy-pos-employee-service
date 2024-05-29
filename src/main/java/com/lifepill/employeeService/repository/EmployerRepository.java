@@ -23,4 +23,6 @@ public interface EmployerRepository extends JpaRepository<Employer,Long> {
 
     //TODO: resolve IsActiveStatus to new updated field
     List<Employer> findByIsActiveStatusEquals(boolean activeState);
+
+    List<Employer> findByBranchId(int branchId);
 }

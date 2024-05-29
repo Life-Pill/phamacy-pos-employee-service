@@ -1,38 +1,18 @@
 spring:
   application:
     name: EMPLOYEE-SERVICE
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/employee-service
-    username: postgres
-    password: Prami@3990
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+  config:
+    import: optional:configserver:http://localhost:8888
 
-  security:
-    user:
-      name: lifepill
-      password: 12345
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-
-server:
-  port: 8086
-
-eureka:
-  instance:
-    client:
-      serviceUrl:
-        defaultZone: http://localhost:8761/eureka/
-
-logging:
-  level:
-    com.lifepill.employeeService.service.APIClient: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
