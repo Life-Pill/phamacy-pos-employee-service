@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 public class MessageController {
 
-    @Value("${Spring.boot.message}")
+    @Value("${message}")
     private String message;
 
-    @GetMapping("/message")
+    @GetMapping("employee/message")
     public String getMessage() {
         return message;
     }
