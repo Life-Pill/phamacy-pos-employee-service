@@ -1,5 +1,6 @@
 package com.lifepill.employeeService.controller;
 
+import com.lifepill.employeeService.dto.APIResponseDTO.EmployeeBranchApiResponseDTO;
 import com.lifepill.employeeService.dto.EmployerBankDetailsDTO;
 import com.lifepill.employeeService.dto.EmployerDTO;
 import com.lifepill.employeeService.dto.EmployerWithBankDTO;
@@ -330,5 +331,14 @@ public class EmployerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new StandardResponse(404, ex.getMessage(), null));
         }
+    }
+
+    @GetMapping("/get-all-employers-with-branch-details/{employerId}")
+    public ResponseEntity<StandardResponse> getAllEmployerByBranchId(@PathVariable long employerId) {
+        List<EmployeeBranchApiResponseDTO> allEmployer = employerService.getAllDetailsOfEmployerByEmployeeID(employerId);
+        return new ResponseEntity<>(
+                new StandardResponse(201, "SUCCESS", allEmployer),
+                HttpStatus.OK
+        );
     }
 }
