@@ -1,6 +1,7 @@
 package com.lifepill.employeeService.service.impl;
 
 import com.lifepill.employeeService.dto.*;
+import com.lifepill.employeeService.dto.APIResponseDTO.EmployeeBranchApiResponseDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateBankAccountDTO;
@@ -16,8 +17,11 @@ import com.lifepill.employeeService.service.APIClient;
 import com.lifepill.employeeService.service.EmployerService;
 import com.lifepill.employeeService.util.StandardResponse;
 import com.lifepill.employeeService.util.mappers.EmployerMapper;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,6 +47,8 @@ public class EmployerServiceIMPL implements EmployerService {
     private ModelMapper modelMapper;
     private final EmployerMapper employerMapper;
     private APIClient apiClient;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmployerServiceIMPL.class);
 
     /**
      * This method is used to save an employer without an image.
@@ -464,6 +470,60 @@ public class EmployerServiceIMPL implements EmployerService {
         return employers.stream()
                 .map(employerMapper::toEmployerAllDetailsDTO)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Retrieves all details of an employer by their ID using a circuit breaker pattern.
+     * The circuit breaker pattern is used to prevent system failure and maintain system stability when calling external services.
+     * If the call to the external service fails, the circuit breaker goes into the open state and the fallback method is called.
+     *
+     * @param employerId The ID of the employer whose details are to be retrieved.
+     * @return A list of EmployeeBranchApiResponseDTO containing all details of the employer.
+     * @throws EntityNotFoundException If no employer is found with the given ID.
+     */
+    @CircuitBreaker(name = "${spring.application.name}", fallbackMethod = "getAllDetailsOfEmployerByEmployeeIDFallback")
+    @Override
+    public List<EmployeeBranchApiResponseDTO> getAllDetailsOfEmployerByEmployeeID(long employerId) {
+
+        LOGGER.info("Inside getAllDetailsOfEmployerByEmployeeID method");
+        List<EmployeeBranchApiResponseDTO> employeeBranchApiResponseDTOList = new ArrayList<>();
+        EmployeeBranchApiResponseDTO employeeBranchApiResponseDTO = new EmployeeBranchApiResponseDTO();
+        //get employer by id
+        Employer employer = employerRepository.findById(employerId)
+                .orElseThrow(() -> new EntityNotFoundException("Employer not found with id: " + employerId));
+        //get employerDTO
+        EmployerDTO employerDTO = modelMapper.map(employer, EmployerDTO.class);
+        //get branchDTO
+        ResponseEntity<StandardResponse> standardResponseResponseEntity =
+                apiClient.getBranchById(employer.getBranchId());
+        BranchDTO branchDTO = modelMapper.map(
+                Objects.requireNonNull(standardResponseResponseEntity.getBody())
+                        .getData(), BranchDTO.class
+        );
+        employeeBranchApiResponseDTO.setEmployerDTO(employerDTO);
+        employeeBranchApiResponseDTO.setBranchDTO(branchDTO);
+        employeeBranchApiResponseDTOList.add(employeeBranchApiResponseDTO);
+        return employeeBranchApiResponseDTOList;
+    }
+
+    /**
+     * Fallback method for getAllDetailsOfEmployerByEmployeeID.
+     * This method is called when the circuit breaker is open and the call to the external service fails.
+     * It returns a list of EmployeeBranchApiResponseDTO with null values.
+     *
+     * @param employerId The ID of the employer whose details were to be retrieved.
+     * @param throwable The exception that caused the circuit breaker to open.
+     * @return A list of EmployeeBranchApiResponseDTO with null values.
+     */
+    public List<EmployeeBranchApiResponseDTO> getAllDetailsOfEmployerByEmployeeIDFallback(long employerId, Throwable throwable) {
+        LOGGER.error("Inside getAllDetailsOfEmployerByEmployeeIDFallback method");
+        //TODO: need to add default values
+        List<EmployeeBranchApiResponseDTO> employeeBranchApiResponseDTOList = new ArrayList<>();
+        EmployeeBranchApiResponseDTO employeeBranchApiResponseDTO = new EmployeeBranchApiResponseDTO();
+        employeeBranchApiResponseDTO.setEmployerDTO(null);
+        employeeBranchApiResponseDTO.setBranchDTO(null);
+        employeeBranchApiResponseDTOList.add(employeeBranchApiResponseDTO);
+        return employeeBranchApiResponseDTOList;
     }
 
 }

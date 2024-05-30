@@ -1,5 +1,6 @@
 package com.lifepill.employeeService.service;
 
+import com.lifepill.employeeService.dto.APIResponseDTO.EmployeeBranchApiResponseDTO;
 import com.lifepill.employeeService.dto.EmployerBankDetailsDTO;
 import com.lifepill.employeeService.dto.EmployerDTO;
 import com.lifepill.employeeService.dto.EmployerWithBankDTO;
@@ -40,4 +41,6 @@ public interface EmployerService {
     List<EmployerUpdateBankAccountDTO> getAllEmployerBankDetails();
 
     List<EmployerAllDetailsDTO> getAllEmployerByBranchId(int branchId);
+
+    List<EmployeeBranchApiResponseDTO> getAllDetailsOfEmployerByEmployeeID(long employerId);
 }
