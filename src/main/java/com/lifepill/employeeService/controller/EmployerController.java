@@ -333,6 +333,12 @@ public class EmployerController {
         }
     }
 
+    /**
+     * Retrieves all employers associated with a specific branch by the employer's ID.
+     *
+     * @param employerId The ID of the employer whose branch details are to be retrieved.
+     * @return ResponseEntity containing a StandardResponse object with a list of all employers associated with the branch.
+     */
     @GetMapping("/get-all-employers-with-branch-details/{employerId}")
     public ResponseEntity<StandardResponse> getAllEmployerByBranchId(@PathVariable long employerId) {
         List<EmployeeBranchApiResponseDTO> allEmployer = employerService.getAllDetailsOfEmployerByEmployeeID(employerId);
@@ -341,4 +347,25 @@ public class EmployerController {
                 HttpStatus.OK
         );
     }
+
+    /**
+     * Checks if an employer exists by their ID.
+     *
+     * @param employerId The ID of the employer to check.
+     * @return ResponseEntity containing a StandardResponse object with a message indicating whether the employer exists.
+     */
+    @GetMapping("/check-employer-exists-by-id/{employerId}")
+    public ResponseEntity<StandardResponse> checkEmployerExistsById(@PathVariable long employerId) {
+        boolean exists = employerService.checkEmployerExistsById(employerId);
+        return new ResponseEntity<>(
+                new StandardResponse(
+                        200,
+                        exists ? "Employer exists" : "Employer does not exist",
+                        exists
+                ),
+                HttpStatus.OK
+        );
+    }
+
+
 }

@@ -507,6 +507,17 @@ public class EmployerServiceIMPL implements EmployerService {
     }
 
     /**
+     * Checks if an employer exists by their ID.
+     *
+     * @param employerId The ID of the employer to check.
+     * @return true if the employer exists, false otherwise.
+     */
+    @Override
+    public boolean checkEmployerExistsById(long employerId) {
+        return employerRepository.existsById(employerId);
+    }
+
+    /**
      * Fallback method for getAllDetailsOfEmployerByEmployeeID.
      * This method is called when the circuit breaker is open and the call to the external service fails.
      * It returns a list of EmployeeBranchApiResponseDTO with null values.
