@@ -1,6 +1,5 @@
 package com.lifepill.employeeService.controller;
 
-import com.lifepill.employeeService.dto.EmployerDTO;
 import com.lifepill.employeeService.dto.responseDTO.EmployerAllDetailsDTO;
 import com.lifepill.employeeService.service.EmployerService;
 import com.lifepill.employeeService.util.StandardResponse;
@@ -55,13 +54,24 @@ public class EmployerBranchController {
     @GetMapping("/manager/by-branch/{branchId}")
     public ResponseEntity<StandardResponse> getManagerByBranchId(@PathVariable int branchId) {
         EmployerAllDetailsDTO managerDetails = employerService.getManagerByBranchId(branchId);
-        return new ResponseEntity<>(
-                new StandardResponse(
-                        HttpStatus.OK.value(),
-                        "Manager retrieved successfully",
-                        managerDetails
-                ),
-                HttpStatus.OK
-        );
+        if (managerDetails == null) {
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            HttpStatus.OK.value(),
+                            "Manager not found for branch ID " + branchId,
+                            null
+                    ),
+                    HttpStatus.OK
+            );
+        } else {
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            HttpStatus.OK.value(),
+                            "Manager retrieved successfully",
+                            managerDetails
+                    ),
+                    HttpStatus.OK
+            );
+        }
     }
 }

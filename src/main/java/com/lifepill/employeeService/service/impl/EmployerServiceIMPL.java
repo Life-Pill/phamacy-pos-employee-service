@@ -547,9 +547,9 @@ public class EmployerServiceIMPL implements EmployerService {
      */
     @Override
     public EmployerAllDetailsDTO getManagerByBranchId(int branchId) {
-        Employer manager = employerRepository.findByBranchIdAndRole(branchId, Role.MANAGER)
-                .orElseThrow(() -> new RuntimeException("Manager not found for branch ID " + branchId));
-            return convertToEmployerAllDetailsDTO(manager);
+        return employerRepository.findByBranchIdAndRole(branchId, Role.MANAGER)
+                .map(this::convertToEmployerAllDetailsDTO)
+                .orElse(null);
 
     }
 }
