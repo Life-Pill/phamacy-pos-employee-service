@@ -12,6 +12,7 @@ import static com.lifepill.employeeService.entity.enums.Permission.*;
 /**
  * The enum Role.
  */
+@Getter
 @RequiredArgsConstructor
 public enum Role {
     /**
@@ -63,7 +64,6 @@ public enum Role {
     )
     ;
 
-    @Getter
     private final Set<Permission> permissions;
 
 /*    *//**

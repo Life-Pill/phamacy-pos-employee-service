@@ -8,6 +8,7 @@ import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateBankAccountDTO;
 import com.lifepill.employeeService.dto.responseDTO.EmployerAllDetailsDTO;
 import com.lifepill.employeeService.entity.Employer;
 import com.lifepill.employeeService.entity.EmployerBankDetails;
+import com.lifepill.employeeService.entity.enums.Role;
 import com.lifepill.employeeService.exception.EntityDuplicationException;
 import com.lifepill.employeeService.exception.EntityNotFoundException;
 import com.lifepill.employeeService.exception.NotFoundException;
@@ -537,4 +538,18 @@ public class EmployerServiceIMPL implements EmployerService {
         return employeeBranchApiResponseDTOList;
     }
 
+    /**
+     * Retrieves the manager of a branch by its ID.
+     *
+     * @param branchId The ID of the branch.
+     * @return EmployerAllDetailsDTO containing the details of the manager.
+     * @throws RuntimeException If the manager is not found for the specified branch ID.
+     */
+    @Override
+    public EmployerAllDetailsDTO getManagerByBranchId(int branchId) {
+        Employer manager = employerRepository.findByBranchIdAndRole(branchId, Role.MANAGER)
+                .orElseThrow(() -> new RuntimeException("Manager not found for branch ID " + branchId));
+            return convertToEmployerAllDetailsDTO(manager);
+
+    }
 }

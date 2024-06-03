@@ -45,4 +45,6 @@ public interface EmployerService {
     List<EmployeeBranchApiResponseDTO> getAllDetailsOfEmployerByEmployeeID(long employerId);
 
     boolean checkEmployerExistsById(long employerId);
+
+    EmployerAllDetailsDTO getManagerByBranchId(int branchId);
 }

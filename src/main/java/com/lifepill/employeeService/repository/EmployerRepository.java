@@ -25,4 +25,7 @@ public interface EmployerRepository extends JpaRepository<Employer,Long> {
     List<Employer> findByIsActiveStatusEquals(boolean activeState);
 
     List<Employer> findByBranchId(int branchId);
+
+    Optional<Employer> findByBranchIdAndRole(int branchId, Role role);
+
 }

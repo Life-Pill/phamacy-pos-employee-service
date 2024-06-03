@@ -40,4 +40,28 @@ public class EmployerBranchController {
                 HttpStatus.OK
         );
     }
+
+    /**
+     * Endpoint for retrieving the manager associated with a specific branch.
+     *
+     * @param branchId The ID of the branch
+     * @return ResponseEntity containing the manager details
+     * This endpoint is a GET request mapped to "/manager/by-branch/{branchId}".
+     * It retrieves the manager associated with the branch specified by the branchId path variable.
+     * The manager details are retrieved by calling the getManagerByBranchId method of the EmployerService.
+     * The response is a ResponseEntity containing a StandardResponse object.
+     * The StandardResponse object contains the HTTP status code, a success message, and the manager details.
+     */
+    @GetMapping("/manager/by-branch/{branchId}")
+    public ResponseEntity<StandardResponse> getManagerByBranchId(@PathVariable int branchId) {
+        EmployerAllDetailsDTO managerDetails = employerService.getManagerByBranchId(branchId);
+        return new ResponseEntity<>(
+                new StandardResponse(
+                        HttpStatus.OK.value(),
+                        "Manager retrieved successfully",
+                        managerDetails
+                ),
+                HttpStatus.OK
+        );
+    }
 }

@@ -12,4 +12,5 @@ import lombok.*;
 public class EmployerAllDetailsDTO {
     private EmployerDTO employerDTO;
     private EmployerBankDetailsDTO employerBankDetailsDTO;
+
 }
