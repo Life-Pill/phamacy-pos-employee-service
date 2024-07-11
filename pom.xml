@@ -186,7 +186,7 @@
 					</to>
 					<container>
 						<ports>
-							<port>9191</port>
+							<port>8086</port>
 						</ports>
 					</container>
 				</configuration>
