@@ -485,7 +485,7 @@ public class EmployerServiceIMPL implements EmployerService {
     @CircuitBreaker(name = "${spring.application.name}", fallbackMethod = "getAllDetailsOfEmployerByEmployeeIDFallback")
     @Override
     public List<EmployeeBranchApiResponseDTO> getAllDetailsOfEmployerByEmployeeID(long employerId) {
-
+        // if the branch service is down then fallback method will be called and return the default values
         LOGGER.info("Inside getAllDetailsOfEmployerByEmployeeID method");
         List<EmployeeBranchApiResponseDTO> employeeBranchApiResponseDTOList = new ArrayList<>();
         EmployeeBranchApiResponseDTO employeeBranchApiResponseDTO = new EmployeeBranchApiResponseDTO();

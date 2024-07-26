@@ -1,10 +1,7 @@
 package com.lifepill.employeeService.controller;
 
+import com.lifepill.employeeService.dto.*;
 import com.lifepill.employeeService.dto.APIResponseDTO.EmployeeBranchApiResponseDTO;
-import com.lifepill.employeeService.dto.EmployerBankDetailsDTO;
-import com.lifepill.employeeService.dto.EmployerDTO;
-import com.lifepill.employeeService.dto.EmployerWithBankDTO;
-import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateBankAccountDTO;
@@ -14,6 +11,7 @@ import com.lifepill.employeeService.service.EmployerService;
 import com.lifepill.employeeService.util.StandardResponse;
 import com.lifepill.employeeService.util.mappers.EmployerMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -77,6 +75,27 @@ public class EmployerController {
                 new StandardResponse(201, "successfully saved", employerDTO),
                 HttpStatus.CREATED
         );
+    }
+
+    /**
+     * Retrieves the profile image of an employer by their ID.
+     *
+     * @param employerId The ID of the employer whose profile image is to be retrieved.
+     * @return ResponseEntity containing the profile image as an InputStreamResource.
+     */
+    @GetMapping(value = "/view-profile-image/{employerId}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<InputStreamResource> getEmployerImage(@PathVariable Long employerId) {
+        EmployerS3DTO employerS3DTO = employerService.getEmployerS3ById(employerId);
+
+        InputStreamResource inputStreamResource = employerService.getEmployerImage(employerS3DTO.getProfileImageUrl());
+
+        String imageUrl = employerS3DTO.getProfileImageUrl();
+        String keyName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + keyName + "\"")
+                .body(inputStreamResource);
     }
 
     /**

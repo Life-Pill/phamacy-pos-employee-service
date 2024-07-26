@@ -1,10 +1,7 @@
 package com.lifepill.employeeService.service;
 
+import com.lifepill.employeeService.dto.*;
 import com.lifepill.employeeService.dto.APIResponseDTO.EmployeeBranchApiResponseDTO;
-import com.lifepill.employeeService.dto.EmployerBankDetailsDTO;
-import com.lifepill.employeeService.dto.EmployerDTO;
-import com.lifepill.employeeService.dto.EmployerWithBankDTO;
-import com.lifepill.employeeService.dto.EmployerWithoutImageDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateBankAccountDTO;
@@ -47,4 +44,6 @@ public interface EmployerService {
     boolean checkEmployerExistsById(long employerId);
 
     EmployerAllDetailsDTO getManagerByBranchId(int branchId);
+
+    EmployerS3DTO getEmployerS3ById(Long employerId);
 }
