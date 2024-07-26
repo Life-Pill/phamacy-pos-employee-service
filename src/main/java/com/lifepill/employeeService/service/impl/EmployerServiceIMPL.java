@@ -559,7 +559,7 @@ public class EmployerServiceIMPL implements EmployerService {
         if (employerRepository.existsById(employerId)) {
             Employer employer = employerRepository.getReferenceById(employerId);
 
-            long branchId = employer.getBranch().getBranchId();
+            long branchId = employer.getBranch().getBranchId();//TODO: get branch details
             EmployerS3DTO employerS3DTO = modelMapper.map(employer, EmployerS3DTO.class);
 
             employerS3DTO.setBranchId(branchId);
@@ -571,6 +571,10 @@ public class EmployerServiceIMPL implements EmployerService {
 
     @Override
     public InputStreamResource getEmployerImage(String profileImageUrl) {
-        return null;
+        // Extract the key from the imageUrl
+        String keyName = profileImageUrl.substring(profileImageUrl.lastIndexOf("/") + 1);
+        S3Object s3Object = s3Service.getFile(keyName);
+        S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
+        return new InputStreamResource(objectInputStream);
     }
 }
