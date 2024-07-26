@@ -556,7 +556,17 @@ public class EmployerServiceIMPL implements EmployerService {
 
     @Override
     public EmployerS3DTO getEmployerS3ById(Long employerId) {
-        return null;
+        if (employerRepository.existsById(employerId)) {
+            Employer employer = employerRepository.getReferenceById(employerId);
+
+            long branchId = employer.getBranch().getBranchId();
+            EmployerS3DTO employerS3DTO = modelMapper.map(employer, EmployerS3DTO.class);
+
+            employerS3DTO.setBranchId(branchId);
+            return employerS3DTO;
+        } else {
+            throw new NotFoundException("No employer found for that id");
+        }
     }
 
     @Override
