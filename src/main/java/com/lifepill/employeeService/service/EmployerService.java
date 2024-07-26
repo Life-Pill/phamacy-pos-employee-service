@@ -6,6 +6,7 @@ import com.lifepill.employeeService.dto.requestDTO.EmployerAllDetailsUpdateDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateAccountDetailsDTO;
 import com.lifepill.employeeService.dto.requestDTO.EmployerUpdateBankAccountDTO;
 import com.lifepill.employeeService.dto.responseDTO.EmployerAllDetailsDTO;
+import org.springframework.core.io.InputStreamResource;
 
 import java.util.List;
 
@@ -46,4 +47,6 @@ public interface EmployerService {
     EmployerAllDetailsDTO getManagerByBranchId(int branchId);
 
     EmployerS3DTO getEmployerS3ById(Long employerId);
+
+    InputStreamResource getEmployerImage(String profileImageUrl);
 }
